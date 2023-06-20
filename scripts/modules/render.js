@@ -1,13 +1,21 @@
+import { getCurrentDateTime } from "./util.js";
+
+
+
 export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
 
-      widget.insertAdjacentHTML = (
+      const currentDateTime = getCurrentDateTime(); // { day, month, year, dayOffMonth, dayOfWeek, hours, minutes }
+      console.log('currentDateTime ', currentDateTime);
+
+     
+      widget.insertAdjacentHTML(
             'beforeend',
             `
              <div class="widget__today">
                   <div class="widget__date-block">
-                        <p class="widget__date">20 июн 2023</p>
-                        <p class="widget__time">09:00</p>
-                        <p class="widget__day">вторник</p>
+                        <p class="widget__date">${currentDateTime.dayOffMonth} ${currentDateTime.month} ${currentDateTime.year}</p>
+                        <p class="widget__time">${currentDateTime.hours} : ${currentDateTime.minutes}</p>
+                        <p class="widget__day">${currentDateTime.dayOfWeek}</p>
                   </div>
                   <div class="widget__icon">
                         <img class="widget__img" src="./icon/01d.svg" alt="Погода">
@@ -24,14 +32,15 @@ export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
             </div>
             `
       );
-};    
+} 
 
 
 export const renderWidgetOther= (widget) => {    // 2 ой блок   <div></div>
 
-      widget.insertAdjacentHTML = (
+      widget.insertAdjacentHTML(
             'beforeend',
             `
+            <div class="widget__other">
                   <div class="widget__wind">
                         <p class="widget__wind-title">Ветер</p>
                         <p class="widget__wind-speed">3.94 м/с</p>
@@ -47,14 +56,15 @@ export const renderWidgetOther= (widget) => {    // 2 ой блок   <div></div
                         <p class="widget__pressure-value">768.32</p>
                         <p class="widget__pressure-text">мм рт.ст.</p>
                   </div>
+            </div>
             `
       );
-};   
+}   
 
 
 export const renderWidgetForecast=(widget) => {     // 3 ий блок  <div></div>
 
-      widget.insertAdjacentHTML=(
+      widget.insertAdjacentHTML(
             'beforeend',
             `     
                   <ul class="widget__forecast">
@@ -86,4 +96,4 @@ export const renderWidgetForecast=(widget) => {     // 3 ий блок  <div></d
                   </ul>
             `
       );
-};   
+}

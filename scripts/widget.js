@@ -3,7 +3,6 @@ import { startWidget } from './modules/widgetService.js';
 
 
 const initWidget = (app) => {
-     
       const widget = startWidget();                         // создание виджета
       app.append(widget);
 

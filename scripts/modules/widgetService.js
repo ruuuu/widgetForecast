@@ -14,4 +14,4 @@ export const startWidget = () => {
       renderWidgetForecast(widget);    // 3 ий блок
 
       return widget;          // <div class="widget"></div>
-};
+}
