@@ -4,18 +4,19 @@ import { getCurrentDateTime } from "./util.js";
 
 export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
 
-      const currentDateTime = getCurrentDateTime(); // { day, month, year, dayOffMonth, dayOfWeek, hours, minutes }
-      console.log('currentDateTime ', currentDateTime);
-
+      //const currentDateTime = getCurrentDateTime(); // { day, month, year, dayOffMonth, dayOfWeek, hours, minutes }
+      // либо так через деструктуризацию:
+      const { month, year, dayOffMonth, dayOfWeek, hours, minutes } = getCurrentDateTime();
      
+
       widget.insertAdjacentHTML(
             'beforeend',
             `
              <div class="widget__today">
                   <div class="widget__date-block">
-                        <p class="widget__date">${currentDateTime.dayOffMonth} ${currentDateTime.month} ${currentDateTime.year}</p>
-                        <p class="widget__time">${currentDateTime.hours} : ${currentDateTime.minutes}</p>
-                        <p class="widget__day">${currentDateTime.dayOfWeek}</p>
+                        <p class="widget__date">${dayOffMonth} ${month} ${year}</p>
+                        <p class="widget__time">${hours} : ${minutes}</p>
+                        <p class="widget__day">${dayOfWeek}</p>
                   </div>
                   <div class="widget__icon">
                         <img class="widget__img" src="./icon/01d.svg" alt="Погода">
