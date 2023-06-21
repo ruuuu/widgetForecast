@@ -1,14 +1,15 @@
 import { startWidget } from './modules/widgetService.js';
+// document - объект который формируется в браузере на основе html файла
 
 
 
-const initWidget = (app) => {
-      const widget = startWidget();                         // создание виджета
+const initWidget = async (app) => {
+      const widget = await startWidget();                         // создание виджета, тк startWidget() -асинхронная, поэтому ставм await
       app.append(widget);
-
+    
 }
 
-// document - объект который формируется в браузере на основе html файла
+
 
 
 initWidget(document.querySelector('#app')); 

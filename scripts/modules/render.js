@@ -2,12 +2,12 @@ import { getCurrentDateTime } from "./util.js";
 
 
 
-export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
+export const renderWidgetToday = (widget, data) => {  // 1 ый блок <div></div>, data = {}
 
       //const currentDateTime = getCurrentDateTime(); // { day, month, year, dayOffMonth, dayOfWeek, hours, minutes }
       // либо так через деструктуризацию:
       const { month, year, dayOffMonth, dayOfWeek, hours, minutes } = getCurrentDateTime();
-     
+    
 
       widget.insertAdjacentHTML(
             'beforeend',
@@ -19,16 +19,16 @@ export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
                         <p class="widget__day">${dayOfWeek}</p>
                   </div>
                   <div class="widget__icon">
-                        <img class="widget__img" src="./icon/01d.svg" alt="Погода">
+                        <img class="widget__img" src="./icon/${data.weather[0].icon}.svg" alt="Погода">
                   </div>
                   <div class="widget__wheather">
                         <div class="widget__city">
-                              <p>Калининград</p>
+                              <p>${data.name}</p>
                               <button class="widget__change-city" aria-label="Изменить город"></button>
                         </div>
-                        <p class="widget__temp-big">19.3°C</p>
+                        <p class="widget__temp-big">${(data.main.temp - 273.15).toFixed(2)} °C</p>
                         <p class="widget__felt">ощущается</p>
-                        <p class="widget__temp-small">18.8 °C</p>
+                        <p class="widget__temp-small">${(data.main.feels_like - 273.15).toFixed(2)} °C</p>
                   </div>
             </div>
             `
@@ -36,7 +36,7 @@ export const renderWidgetToday = (widget) => {  // 1 ый блок <div></div>
 } 
 
 
-export const renderWidgetOther= (widget) => {    // 2 ой блок   <div></div>
+export const renderWidgetOther= (widget, data) => {    // 2 ой блок   <div></div>. data = {}
 
       widget.insertAdjacentHTML(
             'beforeend',
@@ -54,7 +54,7 @@ export const renderWidgetOther= (widget) => {    // 2 ой блок   <div></div
                   </div>
                   <div class="widget__pressure">
                         <p class="widget__pressure-title">Давление</p>
-                        <p class="widget__pressure-value">768.32</p>
+                        <p class="widget__pressure-value">Math.round()</p>
                         <p class="widget__pressure-text">мм рт.ст.</p>
                   </div>
             </div>
@@ -98,3 +98,10 @@ export const renderWidgetForecast=(widget) => {     // 3 ий блок  <div></d
             `
       );
 }
+
+
+export const showError = (widget, error) => {  // widget = <div></div>
+      
+      widget.textContent = error.toString();
+      widget.classList.add('widget--error');
+};
