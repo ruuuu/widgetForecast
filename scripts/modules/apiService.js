@@ -21,6 +21,29 @@ export const fetchWeather = async (city) => {
             return { success: false,  err };
       }
 
+};
+
+
+
+export const fetchForecast = async (city) => {
+
+      try{
+            const response = await fetch(`${API_URL}/forecast?q=${city}&appid=${API_KEY}&lang=ru`); // промис поучлим // https://openweathermap.org/current
+            console.log('response ', response);
+      
+            if(!response.ok || response.status === 404){
+                  throw new Error('Ошибка запроса');
+            }
+
+            const data = await response.json();  // response.json() асинхронный метод поэтому ставим await. Переводим из json  в объект
+            console.log('data fetchForecast ', data);
+      
+            return { success: true,  data };
+      }
+      catch(err){
+            return { success: false,  err };
+      }
+
       
 
 };
