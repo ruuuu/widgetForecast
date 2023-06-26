@@ -1,4 +1,4 @@
-import { getCurrentDateTime, getWindDirection, calculateDevPoint, convertPressure } from "./util.js";
+import { getCurrentDateTime, getWindDirection, calculateDevPoint, convertPressure, getWeatherForecastData } from "./util.js";
 
 
 
@@ -64,64 +64,33 @@ export const renderWidgetOther= (widget, data) => {    // 2 ой блок   <div
 }   
 
 
-export const renderWidgetForecast=(widget, data) => {     // 3 ий блок  <div></div>
-      console.log('data forecast ', data);
+export const renderWidgetForecast = (widget, data) => {     // 3 ий блок  <div></div>
+      console.log('data forecast from sever ', data);
 
       const widgetForecast = document.createElement('ul');
       widgetForecast.className = 'widget__forecast';
       widget.append(widgetForecast);
 
-      const weekdays = ['вск', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб' ];
+      const forecastData = getWeatherForecastData(data);  // вернет [{dayOfWeek, weatherIcon, minTemp, maxTemp }, {dayOfWeek, weatherIcon, minTemp, maxTemp }]
+      console.log('forecastData in render.js : ', forecastData);
 
-      data.list.map((elem, i) => {
-            const li = document.createElement('li');
-            li.className = 'widget__day-item';
-
-            const p = document.createElement('p');
-            p.className = 'widget__day-text';
-            p.textContent = weekdays[i];
-
-
-
+      const items = forecastData.map((item) => {    // map возвращает массив[li, li, li, li], forEach() не возвращает ничего
+           
+            const widgetDayItem = document.createElement('li');
+            widgetDayItem.className = 'widget__day-item';
+            widgetDayItem.insertAdjacentHTML('beforeend',  `
+                  <p class="widget__day-text">${item.dayOfWeek}</p>
+                  <img class="widget__day-img" src="./icon/${item.weatherIcon}.svg" alt="Погода">
+                  <p class="widget__day-temp">${(item.minTemp - 273.15).toFixed(1)}°/${(item.maxTemp - 273.15).toFixed(1)}°</p>
+            `);
             
-            li.append(p);
-            widgetForecast.append(li);
-      });
+            return widgetDayItem;  // <li></li>
+      });  
+
+      widgetForecast.append(...items);  // items = [li, li, li, li ], ... - спред отператор
+};
 
 
-//       widget.insertAdjacentHTML(
-//             'beforeend',
-//             `     
-//                   <ul class="widget__forecast">
-//                         <li class="widget__day-item">
-//                               <p class="widget__day-text">data.list[0]</p>
-//                               <img class="widget__day-img" src="./icon/02d.svg" alt="Погода">
-//                               <p class="widget__day-temp">${(data.list[0].main.temp_min).toFixed(1)}°/${data.list[0].main.temp_max}°</p>
-//                         </li>
-//                         <li class="widget__day-item">
-//                               <p class="widget__day-text">чт</p>
-//                               <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-//                               <p class="widget__day-temp">17.3°/11.3°</p>
-//                         </li>
-//                         <li class="widget__day-item">
-//                               <p class="widget__day-text">пт</p>
-//                               <img class="widget__day-img" src="./icon/04d.svg" alt="Погода">
-//                               <p class="widget__day-temp">16.5°/10.9°</p>
-//                         </li>
-//                         <li class="widget__day-item">
-//                               <p class="widget__day-text">сб</p>
-//                               <img class="widget__day-img" src="./icon/01d.svg" alt="Погода">
-//                               <p class="widget__day-temp">18.6°/12.5°</p>
-//                         </li>
-//                         <li class="widget__day-item">
-//                               <p class="widget__day-text">вс</p>
-//                               <img class="widget__day-img" src="./icon/03d.svg" alt="Погода">
-//                               <p class="widget__day-temp">17.3°/11.2°</p>
-//                         </li>
-//                   </ul>
-//             `
-//       );
- }
 
 
 export const showError = (widget, error) => {  // widget = <div></div>
