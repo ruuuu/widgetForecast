@@ -9,7 +9,7 @@ export const startWidget = async () => { // ставим async потому чт
       const widget = document.createElement('div');
       //widget.className = 'widget';
       widget.classList.add('widget');
-      const dataWeather = await fetchWeather('Сочи');  // иначе вернет промис, без await
+      const dataWeather = await fetchWeather('Калининград');  // иначе вернет промис, без await
 
       if(dataWeather.success){
             renderWidgetToday(widget, dataWeather.data);       // 1-ый блок

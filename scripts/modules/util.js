@@ -32,13 +32,13 @@ export const getCurrentDateTime = () => {
 
 
 
-export const getWindDirection = (deg) => {
+// export const getWindDirection = (deg) => {
    
-   const directions = ['&#8594;', '&#8592;', '&#8593;', '&#8595;', '&#10136;', '&#10138;', '&#11016;', '&#11017;', '&#11018;', '&#11019;'];
+//    const directions = ['&#8594;', '&#8592;', '&#8593;', '&#8595;', '&#10136;', '&#10138;', '&#11016;', '&#11017;', '&#11018;', '&#11019;'];
 
-   const i = Math.round(deg / 45) % 8;
-   return directions[i];
-};
+//    const i = Math.round(deg / 45) % 8;
+//    return directions[i];
+// };
 
 
 
@@ -65,9 +65,10 @@ export const convertPressure = (pressure) => {
 
 export const getWeatherForecastData = (data) => {        // данные с сервера  data = [{},{},{}]
    
-   const forecast = data.list.filter((item) => {         // полуичм массив из 5 элементов(5 дней) [{},{},{},{},{}], котрые подходят под условие. Отличие от map() в том что map возвращает все элементы масива, а  filter венет только те котрые подходят под условие
+   const forecast = data.list.filter((item) => {         // полуичм массив из 5 элементов(5 дней) [{},{},{},{},{}], котрые подходят под условие. Отличие от map() в том что map возвращает все элементы масива, а  filter вернет только те котрые подходят под условие
         
-      return new Date(item.dt_txt).getHours() === 12 && new Date(item.dt_txt).getDate() > new Date().getDate();  // dt_txt="2023-06-23 15:00:00"
+      return new Date(item.dt_txt).getHours() === 12 && new Date(item.dt_txt).getDate() > new Date().getDate() 
+      && new Date(item.dt_txt).getDate() < new Date().getDate() + 5;  // dt_txt="2023-06-23 15:00:00"
    });
    console.log('forecast filter:  ', forecast);
 

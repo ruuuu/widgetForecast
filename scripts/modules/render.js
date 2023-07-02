@@ -1,4 +1,4 @@
-import { getCurrentDateTime, getWindDirection, calculateDevPoint, convertPressure, getWeatherForecastData } from "./util.js";
+import { getCurrentDateTime,  calculateDevPoint, convertPressure, getWeatherForecastData } from "./util.js";
 
 
 
@@ -39,14 +39,12 @@ export const renderWidgetToday = (widget, data) => {  // 1 ый блок <div></
 export const renderWidgetOther= (widget, data) => {    // 2 ой блок   <div></div>. data = {}
       const {} = data;  // деструткризация
 
-      widget.insertAdjacentHTML(
-            'beforeend',
-            `
+      widget.insertAdjacentHTML('beforeend', `
             <div class="widget__other">
                   <div class="widget__wind">
                         <p class="widget__wind-title">Ветер</p>
                         <p class="widget__wind-speed">${data.wind.speed} м/с</p>
-                        <p class="widget__wind-text">${getWindDirection(data.wind.deg)}</p>
+                        <p class="widget__wind-text" style="transform: rotate(${data.wind.deg});">&#8595;</p>
                   </div>
                   <div class="widget__humidity">
                         <p class="widget__humidity-title">Влажность</p>
@@ -64,17 +62,17 @@ export const renderWidgetOther= (widget, data) => {    // 2 ой блок   <div
 }   
 
 
-export const renderWidgetForecast = (widget, data) => {     // 3 ий блок  <div></div>
+export const renderWidgetForecast = (widget,  data) => {     // 3 ий блок  <div></div>
       console.log('data forecast from sever ', data);
 
       const widgetForecast = document.createElement('ul');
       widgetForecast.className = 'widget__forecast';
       widget.append(widgetForecast);
 
-      const forecastData = getWeatherForecastData(data);  // вернет [{dayOfWeek, weatherIcon, minTemp, maxTemp }, {dayOfWeek, weatherIcon, minTemp, maxTemp }]
+      const forecastData = getWeatherForecastData(data);  // вернет массив из 5 элеменв [{dayOfWeek, weatherIcon, minTemp, maxTemp }, {dayOfWeek, weatherIcon, minTemp, maxTemp }]
       console.log('forecastData in render.js : ', forecastData);
 
-      const items = forecastData.map((item) => {    // map возвращает массив[li, li, li, li], forEach() не возвращает ничего
+      const items = forecastData.map((item) => {    // map возвращает массив [li, li, li, li], forEach() не возвращает ничего
            
             const widgetDayItem = document.createElement('li');
             widgetDayItem.className = 'widget__day-item';
@@ -87,7 +85,7 @@ export const renderWidgetForecast = (widget, data) => {     // 3 ий блок  
             return widgetDayItem;  // <li></li>
       });  
 
-      widgetForecast.append(...items);  // items = [li, li, li, li ], ... - спред отператор
+      widgetForecast.append(...items);  // items = [ li.widget__day-item, li.widget__day-item, li.widget__day-item, li ], ... - спред оператор
 };
 
 
